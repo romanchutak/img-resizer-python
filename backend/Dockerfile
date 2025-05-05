@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1.4
-FROM --platform=$BUILDPLATFORM python:3.13-alpine AS builder
+# FROM --platform=$BUILDPLATFORM python:3.13-alpine AS builder
+FROM python:3.13-alpine AS builder
 
 WORKDIR /src
 
@@ -13,8 +14,7 @@ RUN apk update \
     && apk del build-deps
 
 COPY requirements.txt /src
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
